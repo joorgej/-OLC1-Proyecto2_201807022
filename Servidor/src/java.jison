@@ -1,6 +1,7 @@
 %{
       let contador = 0;
       let errores = [];
+      var var_error = "";
 %}
 
 %lex
@@ -70,7 +71,7 @@
 
 
 <<EOF>>                 return 'EOF';
-.                       return 'INVALIDO';
+.                       {contador++; errores.push([{"tipo":"lexico","valor":yytext,"fila":yylloc.first_line, "columna":yylloc.first_column}]);};
 
 /lex
 
@@ -92,13 +93,13 @@ init
       {
         return {"num_errores":contador, "AST": $1, "errores":errores};
       }
-    |error_declaration EOF
-      {
-        return {"error":"error_culerisimo"}
-      }
     |EOF
       {
         return "";
+      }
+    |error_declaration EOF
+      {
+        return {"error":"error_culerisimo"}
       }
     ;
 
@@ -107,10 +108,15 @@ file
       {
         $$ = {"imports":$1, "clases":$2 };
       }
+    | error_declaration clases
+      {
+        $$ = {"imports":$1, "clases":$2};
+      }
     | clases
       {
         $$ = {"clases":$1};
       }
+    
     ;
 
 imports
@@ -184,7 +190,7 @@ class_declaration
       {
         $$ = $1;
       }
-    | function
+    | function_
       {
         $$ = $1;
       }
@@ -259,7 +265,7 @@ var_declarationss
       }
     ;
 
-function
+function_
     : RESERVADA_VOID IDENTIFICADOR parameters function_body
       {
         $$ = {"tipo":"declaracion_metodo", "parametros": $3, "instrucciones": $4};
@@ -834,8 +840,6 @@ null_literal
 error_declaration
     : error
       {
-        contador++;
-        errores.push([{"valor":yytext,"fila":this._$.first_line, "columna":this._$.first_column}]);
         $$ = {"error":$1};
       }
     ;
