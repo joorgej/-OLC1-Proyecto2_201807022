@@ -147,20 +147,12 @@ clases
       {
         $$ = [$1];
       }
-    | error_declaration class_body
-      {
-        $$ = [$1];
-      }
     ;
 
 class
     : RESERVADA_CLASS IDENTIFICADOR class_body
       {
         $$ = {"tipo":"declaracion_clase", "identificador":$2, "instrucciones":$3};
-      }
-    | RESERVADA_CLASS IDENTIFICADOR error_declaration
-      {
-        $$ = $1;
       }
     ;
 
@@ -277,11 +269,11 @@ var_declarationss
 function_
     : RESERVADA_VOID IDENTIFICADOR parameters function_body
       {
-        $$ = {"tipo":"declaracion_metodo", "parametros": $3, "instrucciones": $4};
+        $$ = {"tipo":"declaracion_metodo", "identificador": $2 ,"parametros": $3, "instrucciones": $4};
       }
     | tipo_dato IDENTIFICADOR parameters function_body
       {
-        $$ = {"tipo":"declaracion_funcion", "tipo_dato": $1, "parametros": $3, "instrucciones": $4};
+        $$ = {"tipo":"declaracion_funcion", "identificador": $2 , "tipo_dato": $1, "parametros": $3, "instrucciones": $4};
       }
     ;
 
@@ -329,7 +321,7 @@ parameters
 params
     : params SIMBOLO_COMA param
       {
-        $1.push($2); $$ = $1;
+        $1.push($3); $$ = $1;
       }
     | param
       {
@@ -744,7 +736,7 @@ parameters_data
       }
     | SIMBOLO_PARENTESIS_IZQ error_declaration SIMBOLO_PARENTESIS_DER
       {
-
+        $$ = $1;
       }
     ;
 
