@@ -1,14 +1,13 @@
 %{
       let contador = 0;
       let errores = [];
-      var var_error = "";
 %}
 
 %lex
 %%
 
 "//".* ;
-"/*"(.|\n)*"*/" ;
+[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/] ;
 \s+ ;
 
 "{"                     return 'SIMBOLO_LLAVE_IZQ';
@@ -65,13 +64,14 @@
 
 [a-zA-Z_][a-zA-Z0-9_]*  return 'IDENTIFICADOR';
 "'"([^']|{CE})"'"       return 'CARACTER';
-"\""("\\".|[^"])*"\""    return 'CADENA';
+"\""("\\".|[^"\n])*"\""    return 'CADENA';
 [0-9]+"."[0-9]+         return 'DECIMAL';
 [0-9]+                  return 'ENTERO';
 
+/*errStr = 'Se encontro un error sintactico en la linea: '+(yylineno+1)+"."+lexer.showPosition()+" Se esperaba: "+expected.join(', ') + ". Y se obtuvo: '" + (this.terminals_[symbol] || symbol)+ "'";*/
 
 <<EOF>>                 return 'EOF';
-.                       {contador++; errores.push([{"tipo":"lexico","valor":yytext,"fila":yylloc.first_line, "columna":yylloc.first_column}]);};
+.                       {contador++; errores.push([{"error":"Se encontro el error lexico "+yytext+". En la fila: "+yylloc.first_line+" Y columna: "+yylloc.first_column}]);};
 
 /lex
 
@@ -99,7 +99,7 @@ init
       }
     |error_declaration EOF
       {
-        return {"error":"error_culerisimo"}
+        return $1
       }
     ;
 
@@ -135,6 +135,7 @@ import
       {
         $$ = {"tipo":"instruccion_import", "identificador":$2};
       }
+    | error_declaration SIMBOLO_PUNTOCOMA
     ;
 
 clases
@@ -146,12 +147,20 @@ clases
       {
         $$ = [$1];
       }
+    | error_declaration class_body
+      {
+        $$ = [$1];
+      }
     ;
 
 class
     : RESERVADA_CLASS IDENTIFICADOR class_body
       {
         $$ = {"tipo":"declaracion_clase", "identificador":$2, "instrucciones":$3};
+      }
+    | RESERVADA_CLASS IDENTIFICADOR error_declaration
+      {
+        $$ = $1;
       }
     ;
 
@@ -840,6 +849,6 @@ null_literal
 error_declaration
     : error
       {
-        $$ = {"error":$1};
+        $$ = {"error":"Error_Sintactico"};
       }
     ;

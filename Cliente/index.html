@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/superhero/bootstrap.min.css" rel="stylesheet" integrity="sha384-rvwYMW9Z/bbxZfgxHQEKx6D91KwffWAG+XnsoYNCGWi/qL1P9dIVYm1HBiHFqQEt" crossorigin="anonymous">
+  <title>[OLC1]Proyecto 2</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="">ANTENNAE</a>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" id="btnComparar" onclick="run()">Detectar Copias</a>
+        </li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <div class="jumbotron">
+    <h3>Archivo Primario</h3>
+    <br>
+    <div class="row justify-content-md-center mb-3">
+      <div class="col-md">
+        <ul class="nav nav-tabs border-primary" id="myTabsA">
+          <li id="addTabIconA" class="nav-item" onclick="addNewTabA()">
+            <a class="nav-link" data-toggle="tab" href="#">
+              <img src ="../css/plus.png" aria-hidden="true"></img>
+            </a>
+          </li>
+        </ul>
+        <div id="myTabContentA" class="tab-content">
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-md-center">
+      <div class="col-md-11 text-center">
+        <div class = "row justify-content-md-center">
+          <div  class = "col-md-2">
+            <button type="button" onclick="analyzeA()" class="btn btn-outline-primary btn-lg" title="Analizar">
+              Analyze
+            </button>
+          </div>
+          <div  class = "col-md-1">
+            <label type="button" for="inputPrimaria" class="btn btn-outline-success btn-lg">
+              Open
+            </label>
+            <input type="file" id="inputPrimaria" style="display: none;" accept=".java" />
+          </div>
+          <div  class = "col-md-1">
+            <button type="button" onclick="saveFiles(tabPrimaria)" class="btn btn-outline-info btn-lg" title="Guardar">
+              Save
+            </button>
+          </div> 
+          <div  class = "col-md-2">
+            <button type="button" class="btn btn-outline-warning btn-lg" data-toggle="modal" data-target="#modal-saveA">
+              Save As
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+    <h3>Archivo Secundario</h3>
+    <br>
+    <div class="row justify-content-md-center mb-3">
+      <div class="col-md">
+        <ul class="nav nav-tabs border-primary" id="myTabsb">
+          <li id="addTabIconB" class="nav-item" onclick="addNewTabB()">
+            <a class="nav-link" data-toggle="tab" href="#">
+              <img src ="../css/plus.png" aria-hidden="true"></img>
+            </a>
+          </li>
+        </ul>
+        <div id="myTabContentB" class="tab-content">
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-md-center">
+      <div class="col-md-11 text-center">
+        <div class = "row justify-content-md-center">
+          <div  class = "col-md-2">
+            <button type="button" onclick="analyzeB()" class="btn btn-outline-primary btn-lg" id="btn-analisis-b">
+              Analyze
+            </button>
+          </div>
+          <div  class = "col-md-1">
+            <label type="button" for="inputSecundaria" class="btn btn-outline-success btn-lg">
+              Open
+            </label>
+            <input type="file" id="inputSecundaria" style="display: none;" accept=".java" />
+          </div>
+          <div  class = "col-md-1">
+            <button type="button" onclick="saveFiles(tabSecundaria)" class="btn btn-outline-info btn-lg" title="Guardar">
+              Save
+            </button>
+          </div>
+          <div  class = "col-md-2">
+            <button type="button" class="btn btn-outline-warning btn-lg" data-toggle="modal" data-target="#modal-saveB">
+              Save As
+            </button>
+          </div>   
+        </div>     
+      </div>
+    </div>
+    <br>
+    <br>
+    <h2>Reportes</h2>
+    <br>
+    <div class="row justify-content-md-center">
+      <div class="col-md-11 text-center">
+        
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#reporteErrores">Erroes Lexicos y
+              Sintacticos
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+              aria-expanded="false">Reportes de Copias</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" data-toggle="tab" href="#reporteClases">Reporte de Clases</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" data-toggle="tab" href="#reporteFunciones">Reporte de Funciones</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" data-toggle="tab" href="#reporteVariables">Reporte de Variables</a>
+            </div>
+          </li>
+        </ul>
+        <br>
+        <div id="reports" class="tab-content">
+          <div class="tab-pane fade active show" id="reporteErrores">
+            <textarea id="consolaErrores" rows="4" cols="150"></textarea>
+          </div>
+          <div class="tab-pane fade" id="reporteClases">
+          </div>
+          <div class="tab-pane fade" id="reporteFunciones">
+          </div>
+          <div class="tab-pane fade" id="reporteVariables">
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <h3>Arbol AST</h3>
+    <br>
+    <div class="row justify-content-md-center">
+      <div class="col-md-10">
+        
+        <div id="treePlace"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="page-footer font-small bg-light">
+    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+      <a href="#"> JORGE JUAREZ - 201807022</a>
+    </div>
+  </footer>
+
+  <div class="modal" id="alertModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content alert alert-danger">
+        <div class="modal-header">
+          <h5 class="modal-title">Alerta</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="modal_alert"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-saveA">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Save As...</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="col-form-label" for="nombre-fileA">Escriba el nombre del archivo con su extension:</label>
+            <input type="text" class="form-control" value="text.java" id="nombre-fileA" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="saveAs('A')">
+            Save changes
+          </button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-saveB">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Save As...</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="col-form-label" for="nombre-fileB">Escriba el nombre del archivo con su extension:</label>
+            <input type="text" class="form-control" value="text.java" id="nombre-fileB" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="saveAs('B')">
+            Save changes
+          </button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.9/ace.js" type="text/javascript" charset="utf-8"></script>
+
+  <script src="../js/app.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="../js/json-viewer.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
